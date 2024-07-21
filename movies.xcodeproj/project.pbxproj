@@ -16,6 +16,7 @@
 		6F2707252C4C1E6C006E5A63 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2707242C4C1E6C006E5A63 /* NewsViewController.swift */; };
 		6F2707272C4D2B00006E5A63 /* SingleRandomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2707262C4D2B00006E5A63 /* SingleRandomViewController.swift */; };
 		6F27072B2C4D3417006E5A63 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F27072A2C4D3417006E5A63 /* Movie.swift */; };
+		6F27072D2C4D450D006E5A63 /* RestApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F27072C2C4D450D006E5A63 /* RestApiClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		6F2707242C4C1E6C006E5A63 /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
 		6F2707262C4D2B00006E5A63 /* SingleRandomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleRandomViewController.swift; sourceTree = "<group>"; };
 		6F27072A2C4D3417006E5A63 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		6F27072C2C4D450D006E5A63 /* RestApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestApiClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +67,7 @@
 				6F27070E2C4C1C2E006E5A63 /* AppDelegate.swift */,
 				6F2707102C4C1C2E006E5A63 /* SceneDelegate.swift */,
 				6F2707122C4C1C2E006E5A63 /* TabBarController.swift */,
+				6F27072C2C4D450D006E5A63 /* RestApiClient.swift */,
 				6F2707282C4D2CDA006E5A63 /* RandomMovie */,
 				6F2707292C4D2CEA006E5A63 /* News */,
 				6F2707172C4C1C30006E5A63 /* Assets.xcassets */,
@@ -167,6 +170,7 @@
 				6F27070F2C4C1C2E006E5A63 /* AppDelegate.swift in Sources */,
 				6F2707272C4D2B00006E5A63 /* SingleRandomViewController.swift in Sources */,
 				6F2707232C4C1DF9006E5A63 /* RandomViewController.swift in Sources */,
+				6F27072D2C4D450D006E5A63 /* RestApiClient.swift in Sources */,
 				6F2707252C4C1E6C006E5A63 /* NewsViewController.swift in Sources */,
 				6F2707112C4C1C2E006E5A63 /* SceneDelegate.swift in Sources */,
 			);
