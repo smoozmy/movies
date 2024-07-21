@@ -40,10 +40,7 @@ final class RandomViewController: UIViewController {
     
     // MARK: - Actions
     
-    @objc private func didRandomButtonTapped() {
-        let randomNumber = Int.random(in: 1...10)
-        print(randomNumber)
-        
+    @objc func didRandomButtonTapped() {
         let singleRandomVC = SingleRandomViewController()
         present(singleRandomVC, animated: true, completion: nil)
     }

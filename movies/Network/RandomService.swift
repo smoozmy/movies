@@ -1,36 +1,27 @@
 import UIKit
 
-
 class RandomService {
     
     private let client = RestApiClient()
     
-    func fetchRandom(completion: @escaping (Result<Data, Error>) -> Void) {
+    func fetchRandomFilm(completion: @escaping (Result<Film, Error>) -> Void) {
         do {
-            let request = try ArticlesEndpoint.articles.asRequest()
+            let request = try RandomFilmEndpoint.randomFilm.asRequest()
             client.performRequest(request) { result in
                 switch result {
                 case .success(let data):
-                    let json = try! JSONSerialization.jsonObject(with: data) as! [String: Any]
-                    let results = json["items"] as! [[String: Any]]
-                    
-                    var articles = [Article]()
-                    
-                    for result in results {
-                        let title = result["title"] as! String
-                        let description = result["description"] as! String
-                        let imageURL = result["imageUrl"] as! String
-                        let url = result["url"] as! String
-                        
-                        let article = Article(title: title, description: description, imageURL: URL(string: imageURL)!, url: URL(string: url)!)
-                        articles.append(article)
-                        
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    do {
+                        let film = try decoder.decode(Film.self, from: data)
+                        DispatchQueue.main.async {
+                            completion(.success(film))
+                        }
+                    } catch {
+                        DispatchQueue.main.async {
+                            completion(.failure(error))
+                        }
                     }
-                    
-                    DispatchQueue.main.async {
-                        completion(.success(articles))
-                    }
-                    
                 case .failure(let error):
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -40,25 +31,32 @@ class RandomService {
         } catch {
             completion(.failure(error))
         }
+    }
+    
+    enum RandomFilmEndpoint: URLRequestConvertible {
+        case randomFilm
         
-        enum ArticlesEndpoint: URLRequestConvertible {
-            case articles
-            
-            var path: String {
-                switch self {
-                case .articles:
-                    return "/api/v1/media_posts"
-                }
+        var path: String {
+            switch self {
+            case .randomFilm:
+                return "/api/v2.2/films/\(Int.random(in: 340...4000))"
             }
-            
-            var method: HTTPMethod {
-                switch self {
-                case .articles:
-                    return .get
-                }
+        }
+        
+        var method: HTTPMethod {
+            switch self {
+            case .randomFilm:
+                return .get
             }
-            
-            
         }
     }
+}
+
+struct Film: Decodable {
+    let kinopoiskId: Int
+    let nameRu: String?
+    let nameEn: String?
+    let nameOriginal: String?
+    let posterUrl: String
+    let description: String?
 }
