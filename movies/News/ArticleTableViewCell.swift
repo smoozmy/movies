@@ -28,14 +28,13 @@ class ArticleTableViewCell: UITableViewCell {
         containerView.layer.masksToBounds = true
         
         articleImageView.contentMode = .scaleAspectFill
-//        articleImageView.layer.cornerRadius = 10
         articleImageView.clipsToBounds = true
         
         titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
         titleLabel.numberOfLines = 0
         
-        descriptionLabel.font = UIFont.systemFont(ofSize: 14)
-        descriptionLabel.textColor = .darkGray
+        descriptionLabel.font = UIFont.systemFont(ofSize: 16)
+        descriptionLabel.textColor = .gray
         descriptionLabel.numberOfLines = 0
     }
     
@@ -70,6 +69,22 @@ class ArticleTableViewCell: UITableViewCell {
     func configure(with article: Article) {
         titleLabel.text = article.title
         descriptionLabel.text = article.description
-        articleImageView.image = UIImage(named: "articlePoster")
+        loadImage(from: article.imageURL)
+    }
+    
+    private func loadImage(from url: URL) {
+        articleImageView.image = UIImage(systemName: "photo")
+        
+        let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            guard let self = self, let data = data, error == nil else {
+                return
+            }
+            DispatchQueue.main.async {
+                if let image = UIImage(data: data) {
+                    self.articleImageView.image = image
+                }
+            }
+        }
+        task.resume()
     }
 }
