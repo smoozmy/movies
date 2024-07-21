@@ -17,8 +17,8 @@ class TabBarController: UITabBarController {
             
             random.tabBarItem = UITabBarItem(
                 title: nil,
-                image: UIImage(systemName: "magnifyingglass.circle"),
-                selectedImage: UIImage(systemName: "magnifyingglass.circle.fill")
+                image: UIImage(systemName: "popcorn.circle"),
+                selectedImage: UIImage(systemName: "popcorn.circle.fill")
             )
             random.tabBarItem.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
             
@@ -38,9 +38,9 @@ class TabBarController: UITabBarController {
         
         private func configureTabBarAppearance() {
             let tabBar = self.tabBar
-            tabBar.barTintColor = .black
+            tabBar.barTintColor = .accent
             tabBar.unselectedItemTintColor = .white
-            tabBar.tintColor = .white
+            tabBar.tintColor = .buttons
             tabBar.isTranslucent = false
             
             tabBar.shadowImage = UIImage()
@@ -49,10 +49,10 @@ class TabBarController: UITabBarController {
             if #available(iOS 13.0, *) {
                 let appearance = UITabBarAppearance()
                 appearance.configureWithOpaqueBackground()
-                appearance.backgroundColor = .black
+                appearance.backgroundColor = .accent
                 
                 
-                appearance.shadowColor = .black
+                appearance.shadowColor = .accent
                 
                 tabBar.standardAppearance = appearance
                 if #available(iOS 15.0, *) {
