@@ -1,6 +1,6 @@
 import UIKit
 
-final class ArticlesViewController: UITableViewController {
+final class ArticlesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     let articleService = ArticlesService()
     
@@ -9,18 +9,22 @@ final class ArticlesViewController: UITableViewController {
     
     // MARK: - UI and Life Cycle
     
-    private lazy var table: UITableView = {
-        let element = UITableView()
-        element.translatesAutoresizingMaskIntoConstraints = false
-        element.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        element.dataSource = self
-        element.delegate = self
-        return element
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(ArticleTableViewCell.self, forCellReuseIdentifier: "ArticleCell")
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = .clear
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.estimatedRowHeight = 300
+        tableView.rowHeight = UITableView.automaticDimension
+        return tableView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .purple
+        view.backgroundColor = .accent
         
         setView()
         setupConstraints()
@@ -29,20 +33,26 @@ final class ArticlesViewController: UITableViewController {
         loadNews()
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    // MARK: - TableView DataSource & Delegate
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return articles.count
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ArticleCell", for: indexPath) as? ArticleTableViewCell else {
+            return UITableViewCell()
+        }
+        
         let article = articles[indexPath.row]
-        var config = cell.defaultContentConfiguration()
-        config.text = article.title
-        config.secondaryText = article.description
-        cell.contentConfiguration = config
+        cell.configure(with: article)
+        cell.backgroundColor = .clear
+        cell.selectionStyle = .none
         return cell
     }
 
+    // MARK: - Load News
+    
     func loadNews() {
         activity.startAnimating()
         articleService.fetchArticles { [weak self] result in
@@ -51,7 +61,7 @@ final class ArticlesViewController: UITableViewController {
                 switch result {
                 case .success(let articles):
                     self?.articles = articles
-                    self?.table.reloadData()
+                    self?.tableView.reloadData()
                 case .failure(let error):
                     let title: String
                     if let networkError = error as? NetworkError {
@@ -70,14 +80,18 @@ final class ArticlesViewController: UITableViewController {
         }
     }
 
+    // MARK: - Show Alert
+    
     func showAlert(title: String) {
         let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alert, animated: true)
     }
     
+    // MARK: - Set View
+    
     private func setView() {
-        view.addSubview(table)
+        view.addSubview(tableView)
     }
 }
 
@@ -86,10 +100,10 @@ final class ArticlesViewController: UITableViewController {
 extension ArticlesViewController {
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            table.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            table.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            table.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            table.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
     }
 }
