@@ -1,11 +1,11 @@
 import UIKit
 
 
-class ArticlesService {
+class RandomService {
     
     private let client = RestApiClient()
     
-    func fetchArticles(completion: @escaping (Result<[Article], Error>) -> Void) {
+    func fetchRandom(completion: @escaping (Result<Data, Error>) -> Void) {
         do {
             let request = try ArticlesEndpoint.articles.asRequest()
             client.performRequest(request) { result in
@@ -20,8 +20,9 @@ class ArticlesService {
                         let title = result["title"] as! String
                         let description = result["description"] as! String
                         let imageURL = result["imageUrl"] as! String
+                        let url = result["url"] as! String
                         
-                        let article = Article(title: title, description: description, imageURL: URL(string: imageURL)!)
+                        let article = Article(title: title, description: description, imageURL: URL(string: imageURL)!, url: URL(string: url)!)
                         articles.append(article)
                         
                     }

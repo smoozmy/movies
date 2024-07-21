@@ -33,6 +33,16 @@ final class ArticlesViewController: UIViewController, UITableViewDataSource, UIT
         loadNews()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
     // MARK: - TableView DataSource & Delegate
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -49,6 +59,14 @@ final class ArticlesViewController: UIViewController, UITableViewDataSource, UIT
         cell.backgroundColor = .clear
         cell.selectionStyle = .none
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let article = articles[indexPath.row]
+        let webViewController = ArticleWebViewController()
+        webViewController.url = article.url
+        navigationController?.pushViewController(webViewController, animated: true)
     }
 
     // MARK: - Load News
