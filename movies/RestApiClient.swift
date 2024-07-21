@@ -13,6 +13,8 @@ enum NetworkError: Error {
     case invalidStatusCode
     case client
     case server
+    case emptyData
+    case invalidURL
 }
 
 class RestApiClient {
@@ -29,6 +31,13 @@ class RestApiClient {
                 completion(.failure(error))
                 return
             }
+            
+            guard let data else {
+                completion(.failure(NetworkError.emptyData))
+                return
+            }
+            
+            completion(.success(data))
             
         }.resume()
     }

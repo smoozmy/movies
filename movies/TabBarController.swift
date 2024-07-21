@@ -13,7 +13,7 @@ class TabBarController: UITabBarController {
             super.viewDidLoad()
             
             let random = RandomViewController()
-            let news = NewsViewController()
+            let news = ArticlesViewController()
             
             random.tabBarItem = UITabBarItem(
                 title: nil,
@@ -30,8 +30,9 @@ class TabBarController: UITabBarController {
             news.tabBarItem.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
             
             self.viewControllers = [
-                random,
-                news
+                news,
+                random
+                
             ]
             configureTabBarAppearance()
         }
