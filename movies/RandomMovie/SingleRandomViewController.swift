@@ -6,115 +6,121 @@ final class SingleRandomViewController: UIViewController {
     
     // MARK: - UI and Life Cycle
     
-    private lazy var mainStackView: UIStackView = {
-        let element = UIStackView()
-        element.translatesAutoresizingMaskIntoConstraints = false
-        return element
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
+    private lazy var contentView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     private lazy var posterImage: UIImageView = {
-        let element = UIImageView()
-        element.backgroundColor = .black
-        element.contentMode = .scaleToFill
-        element.translatesAutoresizingMaskIntoConstraints = false
-        return element
+        let imageView = UIImageView()
+        imageView.backgroundColor = .black
+        imageView.contentMode = .scaleToFill
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
     }()
     
     private lazy var gradientImage: UIImageView = {
-        let element = UIImageView()
-        element.image = UIImage(named: "gradient")
-        element.translatesAutoresizingMaskIntoConstraints = false
-        return element
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "gradient")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
     }()
     
     private lazy var titleMovie: UILabel = {
-        let element = UILabel()
-        element.text = "..."
-        element.font = .systemFont(ofSize: 42, weight: .bold)
-        element.textColor = .white
-        element.textAlignment = .center
-        element.numberOfLines = 0
-        element.translatesAutoresizingMaskIntoConstraints = false
-        return element
+        let label = UILabel()
+        label.text = "..."
+        label.font = .systemFont(ofSize: 42, weight: .bold)
+        label.textColor = .white
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     private lazy var movieInfoStackView: UIStackView = {
-        let element = UIStackView()
-        element.axis = .horizontal
-        element.alignment = .center
-        element.distribution = .fill
-        element.spacing = 10
-        element.translatesAutoresizingMaskIntoConstraints = false
-        return element
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.spacing = 10
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
     
     private lazy var rating: UILabel = {
-        let element = UILabel()
-        element.text = ".."
-        element.font = .systemFont(ofSize: 14, weight: .bold)
-        element.textColor = .systemGreen
-        element.translatesAutoresizingMaskIntoConstraints = false
-        return element
+        let label = UILabel()
+        label.text = ".."
+        label.font = .systemFont(ofSize: 14, weight: .bold)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     private lazy var originalName: UILabel = {
-        let element = UILabel()
-        element.text = "..."
-        element.font = .systemFont(ofSize: 14)
-        element.textColor = .white
-        element.translatesAutoresizingMaskIntoConstraints = false
-        return element
+        let label = UILabel()
+        label.text = "..."
+        label.font = .systemFont(ofSize: 14)
+        label.textColor = .white
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     private lazy var moreInfo: UILabel = {
-        let element = UILabel()
-        element.text = "..."
-        element.font = .systemFont(ofSize: 13)
-        element.textAlignment = .center
-        element.textColor = .lightGray
-        element.translatesAutoresizingMaskIntoConstraints = false
-        return element
+        let label = UILabel()
+        label.text = "..."
+        label.font = .systemFont(ofSize: 13)
+        label.textAlignment = .center
+        label.textColor = .lightGray
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     private lazy var country: UILabel = {
-        let element = UILabel()
-        element.font = .systemFont(ofSize: 13)
-        element.textAlignment = .center
-        element.textColor = .lightGray
-        element.translatesAutoresizingMaskIntoConstraints = false
-        return element
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 13)
+        label.textAlignment = .center
+        label.textColor = .lightGray
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     private lazy var descriptionMovie: UILabel = {
-        let element = UILabel()
-        element.font = .systemFont(ofSize: 16)
-        element.textColor = .black
-        element.textAlignment = .left
-        element.numberOfLines = 0
-        element.translatesAutoresizingMaskIntoConstraints = false
-        return element
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 16)
+        label.textColor = .black
+        label.textAlignment = .left
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .accentLight
         
-        setView()
+        setupView()
         setupConstraints()
         fetchRandomFilm()
     }
     
-    private func setView() {
-        view.addSubview(mainStackView)
-        mainStackView.addArrangedSubview(posterImage)
-        view.addSubview(gradientImage)
-        view.addSubview(titleMovie)
-        view.addSubview(movieInfoStackView)
+    private func setupView() {
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        
+        contentView.addSubview(posterImage)
+        contentView.addSubview(gradientImage)
+        contentView.addSubview(titleMovie)
+        contentView.addSubview(movieInfoStackView)
         movieInfoStackView.addArrangedSubview(rating)
         movieInfoStackView.addArrangedSubview(originalName)
-        view.addSubview(moreInfo)
-        view.addSubview(country)
-        view.addSubview(descriptionMovie)
+        contentView.addSubview(moreInfo)
+        contentView.addSubview(country)
+        contentView.addSubview(descriptionMovie)
     }
     
     private func fetchRandomFilm() {
@@ -130,13 +136,28 @@ final class SingleRandomViewController: UIViewController {
     
     private func updateUI(with film: Film) {
         titleMovie.text = film.nameRu ?? film.nameOriginal
-        rating.text = String(format: "%.1f", film.ratingKinopoisk ?? 0.0)
+        let ratingValue = film.ratingKinopoisk ?? 0.0
+        rating.text = String(format: "%.1f", ratingValue)
+        rating.textColor = ratingColor(for: ratingValue)
         moreInfo.text = "\(film.year ?? 0), \(film.genres?.map { $0.genre }.joined(separator: ", ") ?? "")"
         country.text = film.countries?.map { $0.country }.joined(separator: ", ")
         originalName.text = film.nameOriginal
         descriptionMovie.text = film.description
         if let url = URL(string: film.posterUrl) {
             loadImage(from: url)
+        }
+    }
+    
+    private func ratingColor(for rating: Double) -> UIColor {
+        switch rating {
+        case ..<4.0:
+            return .systemRed
+        case 4.0..<6.5:
+            return .systemYellow
+        case 0.0:
+            return .gray
+        default:
+            return .systemGreen
         }
     }
     
@@ -156,35 +177,45 @@ final class SingleRandomViewController: UIViewController {
 extension SingleRandomViewController {
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: view.topAnchor),
-            mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            mainStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            posterImage.topAnchor.constraint(equalTo: mainStackView.topAnchor),
-            posterImage.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor),
-            posterImage.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor),
-            posterImage.widthAnchor.constraint(equalTo: posterImage.heightAnchor, multiplier: 2.0 / 3.0),
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             
-            gradientImage.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            posterImage.topAnchor.constraint(equalTo: contentView.topAnchor),
+            posterImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            posterImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            posterImage.heightAnchor.constraint(equalTo: posterImage.widthAnchor, multiplier: 3.0 / 2.0),
+            
+            gradientImage.leadingAnchor.constraint(equalTo: posterImage.leadingAnchor),
+            gradientImage.trailingAnchor.constraint(equalTo: posterImage.trailingAnchor),
             gradientImage.bottomAnchor.constraint(equalTo: posterImage.bottomAnchor),
+            gradientImage.heightAnchor.constraint(equalToConstant: 500),
             
-            movieInfoStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            movieInfoStackView.bottomAnchor.constraint(equalTo: moreInfo.topAnchor, constant: -4),
-            
-            moreInfo.bottomAnchor.constraint(equalTo: country.topAnchor, constant: -4),
-            moreInfo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
-            country.bottomAnchor.constraint(equalTo: gradientImage.bottomAnchor, constant: -20),
-            country.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
-            titleMovie.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            titleMovie.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            titleMovie.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            titleMovie.centerXAnchor.constraint(equalTo: gradientImage.centerXAnchor),
             titleMovie.bottomAnchor.constraint(equalTo: movieInfoStackView.topAnchor, constant: -8),
+            titleMovie.leadingAnchor.constraint(equalTo: gradientImage.leadingAnchor, constant: 16),
+            titleMovie.trailingAnchor.constraint(equalTo: gradientImage.trailingAnchor, constant: -16),
             
-            descriptionMovie.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor, constant: 16),
-            descriptionMovie.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor, constant: -16),
-            descriptionMovie.topAnchor.constraint(equalTo: gradientImage.bottomAnchor, constant: 25)
+            movieInfoStackView.centerXAnchor.constraint(equalTo: gradientImage.centerXAnchor),
+            movieInfoStackView.bottomAnchor.constraint(equalTo: moreInfo.topAnchor, constant: -8),
+            
+            moreInfo.centerXAnchor.constraint(equalTo: gradientImage.centerXAnchor),
+            moreInfo.bottomAnchor.constraint(equalTo: country.topAnchor, constant: -8),
+            
+            country.centerXAnchor.constraint(equalTo: gradientImage.centerXAnchor),
+            country.bottomAnchor.constraint(equalTo: gradientImage.bottomAnchor, constant: -16),
+            
+            descriptionMovie.topAnchor.constraint(equalTo: posterImage.bottomAnchor, constant: 16),
+            descriptionMovie.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            descriptionMovie.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            descriptionMovie.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
         ])
     }
 }
