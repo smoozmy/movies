@@ -52,11 +52,4 @@ class RandomService {
     }
 }
 
-struct Film: Decodable {
-    let kinopoiskId: Int
-    let nameRu: String?
-    let nameEn: String?
-    let nameOriginal: String?
-    let posterUrl: String
-    let description: String?
-}
+
