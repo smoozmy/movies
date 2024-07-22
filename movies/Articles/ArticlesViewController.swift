@@ -37,7 +37,7 @@ final class ArticlesViewController: UIViewController, UITableViewDataSource, UIT
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
@@ -48,7 +48,7 @@ final class ArticlesViewController: UIViewController, UITableViewDataSource, UIT
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return articles.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ArticleCell", for: indexPath) as? ArticleTableViewCell else {
             return UITableViewCell()
@@ -60,7 +60,7 @@ final class ArticlesViewController: UIViewController, UITableViewDataSource, UIT
         cell.selectionStyle = .none
         return cell
     }
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let article = articles[indexPath.row]
@@ -68,7 +68,7 @@ final class ArticlesViewController: UIViewController, UITableViewDataSource, UIT
         webViewController.url = article.url
         navigationController?.pushViewController(webViewController, animated: true)
     }
-
+    
     // MARK: - Load News
     
     func loadNews() {
@@ -97,7 +97,7 @@ final class ArticlesViewController: UIViewController, UITableViewDataSource, UIT
             }
         }
     }
-
+    
     // MARK: - Show Alert
     
     func showAlert(title: String) {

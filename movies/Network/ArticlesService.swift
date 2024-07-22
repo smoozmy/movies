@@ -11,26 +11,18 @@ class ArticlesService {
             client.performRequest(request) { result in
                 switch result {
                 case .success(let data):
-                    let json = try! JSONSerialization.jsonObject(with: data) as! [String: Any]
-                    let results = json["items"] as! [[String: Any]]
-                    
-                    var articles = [Article]()
-                    
-                    for result in results {
-                        let title = result["title"] as! String
-                        let description = result["description"] as! String
-                        let imageURL = result["imageUrl"] as! String
-                        let url = result["url"] as! String
-                        
-                        let article = Article(title: title, description: description, imageURL: URL(string: imageURL)!, url: URL(string: url)!)
-                        articles.append(article)
-                        
+                    do {
+                        let decoder = JSONDecoder()
+                        decoder.keyDecodingStrategy = .convertFromSnakeCase
+                        let response = try decoder.decode(ArticlesResponse.self, from: data)
+                        DispatchQueue.main.async {
+                            completion(.success(response.items))
+                        }
+                    } catch {
+                        DispatchQueue.main.async {
+                            completion(.failure(error))
+                        }
                     }
-                    
-                    DispatchQueue.main.async {
-                        completion(.success(articles))
-                    }
-                    
                 case .failure(let error):
                     DispatchQueue.main.async {
                         completion(.failure(error))
@@ -40,25 +32,23 @@ class ArticlesService {
         } catch {
             completion(.failure(error))
         }
+    }
+    
+    enum ArticlesEndpoint: URLRequestConvertible {
+        case articles
         
-        enum ArticlesEndpoint: URLRequestConvertible {
-            case articles
-            
-            var path: String {
-                switch self {
-                case .articles:
-                    return "/api/v1/media_posts"
-                }
+        var path: String {
+            switch self {
+            case .articles:
+                return "/api/v1/media_posts"
             }
-            
-            var method: HTTPMethod {
-                switch self {
-                case .articles:
-                    return .get
-                }
+        }
+        
+        var method: HTTPMethod {
+            switch self {
+            case .articles:
+                return .get
             }
-            
-            
         }
     }
 }

@@ -1,7 +1,7 @@
 import UIKit
 
 class ArticleTableViewCell: UITableViewCell {
-
+    
     let containerView = UIView()
     let articleImageView = UIImageView()
     let titleLabel = UILabel()
@@ -69,7 +69,7 @@ class ArticleTableViewCell: UITableViewCell {
     func configure(with article: Article) {
         titleLabel.text = article.title
         descriptionLabel.text = article.description
-        loadImage(from: article.imageURL)
+        loadImage(from: article.imageUrl)
     }
     
     private func loadImage(from url: URL) {

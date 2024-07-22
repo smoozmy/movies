@@ -14,9 +14,9 @@ class RandomService {
             client.performRequest(request) { [weak self] result in
                 switch result {
                 case .success(let data):
-                    let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
                     do {
+                        let decoder = JSONDecoder()
+                        decoder.keyDecodingStrategy = .convertFromSnakeCase
                         let film = try decoder.decode(Film.self, from: data)
                         if let shortDescription = film.shortDescription, !shortDescription.isEmpty {
                             DispatchQueue.main.async {

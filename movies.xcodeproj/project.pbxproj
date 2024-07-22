@@ -81,7 +81,7 @@
 				6F2707102C4C1C2E006E5A63 /* SceneDelegate.swift */,
 				6F2707122C4C1C2E006E5A63 /* TabBarController.swift */,
 				6F2707282C4D2CDA006E5A63 /* RandomMovie */,
-				6F2707292C4D2CEA006E5A63 /* News */,
+				6F2707292C4D2CEA006E5A63 /* Articles */,
 				6F2707172C4C1C30006E5A63 /* Assets.xcassets */,
 				6F2707192C4C1C30006E5A63 /* LaunchScreen.storyboard */,
 				6F27071C2C4C1C30006E5A63 /* Info.plist */,
@@ -99,7 +99,7 @@
 			path = RandomMovie;
 			sourceTree = "<group>";
 		};
-		6F2707292C4D2CEA006E5A63 /* News */ = {
+		6F2707292C4D2CEA006E5A63 /* Articles */ = {
 			isa = PBXGroup;
 			children = (
 				6F2707242C4C1E6C006E5A63 /* ArticlesViewController.swift */,
@@ -107,7 +107,7 @@
 				6F2707342C4D5FD8006E5A63 /* ArticleTableViewCell.swift */,
 				6F2707362C4D6A04006E5A63 /* ArticleWebViewController.swift */,
 			);
-			path = News;
+			path = Articles;
 			sourceTree = "<group>";
 		};
 		6F2707382C4D9210006E5A63 /* Network */ = {

@@ -88,7 +88,7 @@ class ArticleWebViewController: UIViewController, WKNavigationDelegate {
             let appearance = UITabBarAppearance()
             appearance.configureWithOpaqueBackground()
             appearance.backgroundColor = isWhite ? .white : .accent
-
+            
             if #available(iOS 13.0, *) {
                 tabBar.standardAppearance = appearance
                 if #available(iOS 15.0, *) {
@@ -97,9 +97,6 @@ class ArticleWebViewController: UIViewController, WKNavigationDelegate {
             } else {
                 tabBar.barTintColor = isWhite ? .white : .accent
             }
-            
-//            tabBar.tintColor = isWhite ? .clear : .buttons
-//            tabBar.unselectedItemTintColor = isWhite ? .buttons : .white
         }
     }
 }

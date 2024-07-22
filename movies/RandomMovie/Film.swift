@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct Film: Decodable {
+struct Film: Codable {
     let kinopoiskId: Int
     let nameRu: String?
     let nameEn: String?
@@ -21,10 +21,11 @@ struct Film: Decodable {
     let countries: [Country]?
 }
 
-struct Genre: Decodable {
+struct Genre: Codable {
     let genre: String
 }
 
-struct Country: Decodable {
+struct Country: Codable {
     let country: String
 }
+
