@@ -73,15 +73,33 @@ class ArticleWebViewController: UIViewController, WKNavigationDelegate {
         navigationController?.popViewController(animated: true)
     }
     
-    // Скрытие таб-бара при появлении контроллера
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tabBarController?.tabBar.isHidden = true
+        changeTabBarAppearance(isWhite: true)
     }
     
-    // Показ таб-бара при исчезновении контроллера
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        tabBarController?.tabBar.isHidden = false
+        changeTabBarAppearance(isWhite: false)
+    }
+    
+    private func changeTabBarAppearance(isWhite: Bool) {
+        if let tabBar = tabBarController?.tabBar {
+            let appearance = UITabBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = isWhite ? .white : .accent
+
+            if #available(iOS 13.0, *) {
+                tabBar.standardAppearance = appearance
+                if #available(iOS 15.0, *) {
+                    tabBar.scrollEdgeAppearance = appearance
+                }
+            } else {
+                tabBar.barTintColor = isWhite ? .white : .accent
+            }
+            
+//            tabBar.tintColor = isWhite ? .clear : .buttons
+//            tabBar.unselectedItemTintColor = isWhite ? .buttons : .white
+        }
     }
 }
