@@ -13,6 +13,7 @@ struct Film: Decodable {
     let nameEn: String?
     let nameOriginal: String?
     let posterUrl: String
+    let shortDescription: String?
     let description: String?
     let ratingKinopoisk: Double?
     let year: Int?

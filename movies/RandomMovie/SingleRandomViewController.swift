@@ -89,6 +89,16 @@ final class SingleRandomViewController: UIViewController {
         return label
     }()
     
+    private lazy var shortDescriptionMovie: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 16, weight: .bold)
+        label.textColor = .buttons
+        label.textAlignment = .left
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private lazy var descriptionMovie: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16)
@@ -120,6 +130,7 @@ final class SingleRandomViewController: UIViewController {
         movieInfoStackView.addArrangedSubview(originalName)
         contentView.addSubview(moreInfo)
         contentView.addSubview(country)
+        contentView.addSubview(shortDescriptionMovie)
         contentView.addSubview(descriptionMovie)
     }
     
@@ -142,6 +153,7 @@ final class SingleRandomViewController: UIViewController {
         moreInfo.text = "\(film.year ?? 0), \(film.genres?.map { $0.genre }.joined(separator: ", ") ?? "")"
         country.text = film.countries?.map { $0.country }.joined(separator: ", ")
         originalName.text = film.nameOriginal
+        shortDescriptionMovie.text = film.shortDescription
         descriptionMovie.text = film.description
         if let url = URL(string: film.posterUrl) {
             loadImage(from: url)
@@ -212,10 +224,14 @@ extension SingleRandomViewController {
             country.centerXAnchor.constraint(equalTo: gradientImage.centerXAnchor),
             country.bottomAnchor.constraint(equalTo: gradientImage.bottomAnchor, constant: -16),
             
-            descriptionMovie.topAnchor.constraint(equalTo: posterImage.bottomAnchor, constant: 16),
+            shortDescriptionMovie.topAnchor.constraint(equalTo: posterImage.bottomAnchor, constant: 16),
+            shortDescriptionMovie.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            shortDescriptionMovie.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            
+            descriptionMovie.topAnchor.constraint(equalTo: shortDescriptionMovie.bottomAnchor, constant: 16),
             descriptionMovie.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             descriptionMovie.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            descriptionMovie.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
+            descriptionMovie.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
         ])
     }
 }
