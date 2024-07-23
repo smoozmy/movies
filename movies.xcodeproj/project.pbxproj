@@ -23,6 +23,7 @@
 		6F2707352C4D5FD8006E5A63 /* ArticleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2707342C4D5FD8006E5A63 /* ArticleTableViewCell.swift */; };
 		6F2707372C4D6A04006E5A63 /* ArticleWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2707362C4D6A04006E5A63 /* ArticleWebViewController.swift */; };
 		6F27073A2C4D9236006E5A63 /* RandomService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2707392C4D9236006E5A63 /* RandomService.swift */; };
+		6F27073D2C5061D4006E5A63 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F27073C2C5061D4006E5A63 /* ImageLoader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		6F2707342C4D5FD8006E5A63 /* ArticleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleTableViewCell.swift; sourceTree = "<group>"; };
 		6F2707362C4D6A04006E5A63 /* ArticleWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleWebViewController.swift; sourceTree = "<group>"; };
 		6F2707392C4D9236006E5A63 /* RandomService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomService.swift; sourceTree = "<group>"; };
+		6F27073C2C5061D4006E5A63 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				6F2707302C4D4B6F006E5A63 /* Article.swift */,
 				6F2707342C4D5FD8006E5A63 /* ArticleTableViewCell.swift */,
 				6F2707362C4D6A04006E5A63 /* ArticleWebViewController.swift */,
+				6F27073C2C5061D4006E5A63 /* ImageLoader.swift */,
 			);
 			path = Articles;
 			sourceTree = "<group>";
@@ -193,6 +196,7 @@
 			files = (
 				6F27072B2C4D3417006E5A63 /* Film.swift in Sources */,
 				6F2707132C4C1C2E006E5A63 /* TabBarController.swift in Sources */,
+				6F27073D2C5061D4006E5A63 /* ImageLoader.swift in Sources */,
 				6F27070F2C4C1C2E006E5A63 /* AppDelegate.swift in Sources */,
 				6F2707272C4D2B00006E5A63 /* SingleRandomViewController.swift in Sources */,
 				6F2707372C4D6A04006E5A63 /* ArticleWebViewController.swift in Sources */,
