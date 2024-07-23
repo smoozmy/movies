@@ -69,22 +69,10 @@ class ArticleTableViewCell: UITableViewCell {
     func configure(with article: Article) {
         titleLabel.text = article.title
         descriptionLabel.text = article.description
-        loadImage(from: article.imageUrl)
-    }
-    
-    private func loadImage(from url: URL) {
         articleImageView.image = UIImage(systemName: "photo")
         
-        let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            guard let self = self, let data = data, error == nil else {
-                return
-            }
-            DispatchQueue.main.async {
-                if let image = UIImage(data: data) {
-                    self.articleImageView.image = image
-                }
-            }
+        ImageLoader.shared.loadImage(from: article.imageUrl) { [weak self] image in
+            self?.articleImageView.image = image
         }
-        task.resume()
     }
 }
