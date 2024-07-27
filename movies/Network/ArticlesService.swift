@@ -7,7 +7,7 @@ class ArticlesService {
     
     func fetchArticles(completion: @escaping (Result<[Article], Error>) -> Void) {
         do {
-            let request = try ArticlesEndpoint.articles.asRequest()
+            let request = try ArticlesEndpoint.articles.createRequest()
             client.performRequest(request) { result in
                 switch result {
                 case .success(let data):
@@ -34,7 +34,7 @@ class ArticlesService {
         }
     }
     
-    enum ArticlesEndpoint: URLRequestConvertible {
+    enum ArticlesEndpoint: URLRequestConvertible, RequestFactory {
         case articles
         
         var path: String {
@@ -49,6 +49,10 @@ class ArticlesService {
             case .articles:
                 return .get
             }
+        }
+        
+        func createRequest() throws -> URLRequest {
+            return try asRequest()
         }
     }
 }

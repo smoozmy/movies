@@ -10,7 +10,7 @@ class RandomService {
     
     private func loadRandomFilm(completion: @escaping (Result<Film, Error>) -> Void) {
         do {
-            let request = try RandomFilmEndpoint.randomFilm.asRequest()
+            let request = try RandomFilmEndpoint.randomFilm.createRequest()
             client.performRequest(request) { [weak self] result in
                 switch result {
                 case .success(let data):
@@ -41,7 +41,7 @@ class RandomService {
         }
     }
     
-    enum RandomFilmEndpoint: URLRequestConvertible {
+    enum RandomFilmEndpoint: URLRequestConvertible, RequestFactory {
         case randomFilm
         
         var path: String {
@@ -56,6 +56,10 @@ class RandomService {
             case .randomFilm:
                 return .get
             }
+        }
+        
+        func createRequest() throws -> URLRequest {
+            return try asRequest()
         }
     }
 }

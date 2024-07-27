@@ -7,6 +7,10 @@
 
 import Foundation
 
+protocol RequestFactory {
+    func createRequest() throws -> URLRequest
+}
+
 enum NetworkError: Error {
     case unknown
     case invalidMimeType
