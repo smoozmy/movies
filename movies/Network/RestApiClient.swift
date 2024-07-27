@@ -11,6 +11,10 @@ protocol RequestFactory {
     func createRequest() throws -> URLRequest
 }
 
+protocol RestApiClientProtocol {
+    func performRequest(_ factory: RequestFactory, completion: @escaping (Result<Data, Error>) -> Void)
+}
+
 enum NetworkError: Error {
     case unknown
     case invalidMimeType
@@ -21,30 +25,60 @@ enum NetworkError: Error {
     case invalidURL
 }
 
-class RestApiClient {
+class RestApiClient: RestApiClientProtocol {
+    
     private let urlSession = URLSession.shared
     
-    func performRequest(_ request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) {
-        urlSession.dataTask(with: request) { [weak self] data, response, error in
-            if let error {
-                completion(.failure(error))
-                return
-            }
-            
-            if let error = self?.validate(response: response) {
-                completion(.failure(error))
-                return
-            }
-            
-            guard let data else {
-                completion(.failure(NetworkError.emptyData))
-                return
-            }
-            
-            completion(.success(data))
-            
-        }.resume()
+    func performRequest(_ factory: any RequestFactory, completion: @escaping (Result<Data, any Error>) -> Void) {
+        do {
+            let request = try factory.createRequest()
+            urlSession.dataTask(with: request) { [weak self] data, response, error in
+                if let error {
+                    completion(.failure(error))
+                    return
+                }
+                
+                if let error = self?.validate(response: response) {
+                    completion(.failure(error))
+                    return
+                }
+                
+                guard let data else {
+                    completion(.failure(NetworkError.emptyData))
+                    return
+                }
+                
+                completion(.success(data))
+                
+            }.resume()
+        } catch {
+            completion(.failure(error))
+        }
     }
+    
+    
+    
+    //    func performRequest(_ request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) {
+    //        urlSession.dataTask(with: request) { [weak self] data, response, error in
+    //            if let error {
+    //                completion(.failure(error))
+    //                return
+    //            }
+    //
+    //            if let error = self?.validate(response: response) {
+    //                completion(.failure(error))
+    //                return
+    //            }
+    //
+    //            guard let data else {
+    //                completion(.failure(NetworkError.emptyData))
+    //                return
+    //            }
+    //
+    //            completion(.success(data))
+    //
+    //        }.resume()
+    //    }
     
     private func validate(response: URLResponse?) -> Error? {
         guard let httpResponse = response as? HTTPURLResponse else {
