@@ -2,7 +2,7 @@ import UIKit
 
 final class SingleRandomViewController: UIViewController {
     
-    private let randomService = RandomService()
+    var film: Film?
     
     // MARK: - UI and Life Cycle
     
@@ -115,7 +115,7 @@ final class SingleRandomViewController: UIViewController {
         
         setupView()
         setupConstraints()
-        fetchRandomFilm()
+        updateUI()
     }
     
     private func setupView() {
@@ -134,18 +134,8 @@ final class SingleRandomViewController: UIViewController {
         contentView.addSubview(descriptionMovie)
     }
     
-    private func fetchRandomFilm() {
-        randomService.fetchRandomFilm { [weak self] result in
-            switch result {
-            case .success(let film):
-                self?.updateUI(with: film)
-            case .failure(let error):
-                print("Error fetching film: \(error)")
-            }
-        }
-    }
-    
-    private func updateUI(with film: Film) {
+    private func updateUI() {
+        guard let film = film else { return }
         titleMovie.text = film.nameRu ?? film.nameOriginal
         let ratingValue = film.ratingKinopoisk ?? 0.0
         rating.text = String(format: "%.1f", ratingValue)
