@@ -69,10 +69,21 @@ class ArticleTableViewCell: UITableViewCell {
     func configure(with article: Article) {
         titleLabel.text = article.title
         descriptionLabel.text = article.description
-        articleImageView.image = UIImage(systemName: "photo")
+        setDefaultImage()
         
         ImageLoader.shared.loadImage(from: article.imageUrl) { [weak self] image in
-            self?.articleImageView.image = image
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                if let image = image {
+                    self.articleImageView.image = image
+                } else {
+                    self.setDefaultImage()
+                }
+            }
         }
+    }
+    
+    private func setDefaultImage() {
+        articleImageView.image = UIImage(systemName: "photo")
     }
 }
