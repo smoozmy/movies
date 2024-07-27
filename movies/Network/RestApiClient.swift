@@ -56,30 +56,6 @@ class RestApiClient: RestApiClientProtocol {
         }
     }
     
-    
-    
-    //    func performRequest(_ request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) {
-    //        urlSession.dataTask(with: request) { [weak self] data, response, error in
-    //            if let error {
-    //                completion(.failure(error))
-    //                return
-    //            }
-    //
-    //            if let error = self?.validate(response: response) {
-    //                completion(.failure(error))
-    //                return
-    //            }
-    //
-    //            guard let data else {
-    //                completion(.failure(NetworkError.emptyData))
-    //                return
-    //            }
-    //
-    //            completion(.success(data))
-    //
-    //        }.resume()
-    //    }
-    
     private func validate(response: URLResponse?) -> Error? {
         guard let httpResponse = response as? HTTPURLResponse else {
             return NetworkError.unknown
@@ -102,5 +78,4 @@ class RestApiClient: RestApiClientProtocol {
         
         return nil
     }
-    
 }
