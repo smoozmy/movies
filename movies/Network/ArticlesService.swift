@@ -3,34 +3,34 @@ import UIKit
 
 class ArticlesService {
     
-    private let client = RestApiClient()
+    private let client: RestApiClientProtocol
+    
+    init(client: RestApiClientProtocol = RestApiClient()) {
+        self.client = RestApiClientDecorator(wrappee: client)
+    }
     
     func fetchArticles(completion: @escaping (Result<[Article], Error>) -> Void) {
-        do {
-            let request = try ArticlesEndpoint.articles.createRequest()
-            client.performRequest(request) { result in
-                switch result {
-                case .success(let data):
-                    do {
-                        let decoder = JSONDecoder()
-                        decoder.keyDecodingStrategy = .convertFromSnakeCase
-                        let response = try decoder.decode(ArticlesResponse.self, from: data)
-                        DispatchQueue.main.async {
-                            completion(.success(response.items))
-                        }
-                    } catch {
-                        DispatchQueue.main.async {
-                            completion(.failure(error))
-                        }
+        let endpoint = ArticlesEndpoint.articles
+        client.performRequest(endpoint) { result in
+            switch result {
+            case .success(let data):
+                do {
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    let response = try decoder.decode(ArticlesResponse.self, from: data)
+                    DispatchQueue.main.async {
+                        completion(.success(response.items))
                     }
-                case .failure(let error):
+                } catch {
                     DispatchQueue.main.async {
                         completion(.failure(error))
                     }
                 }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
             }
-        } catch {
-            completion(.failure(error))
         }
     }
     

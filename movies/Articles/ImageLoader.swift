@@ -7,7 +7,11 @@
 
 import UIKit
 
-class ImageLoader {
+protocol ImageLoaderProtocol {
+    func loadImage(from url: URL, completion: @escaping (UIImage?) -> Void)
+}
+
+class ImageLoader: ImageLoaderProtocol {
     static let shared = ImageLoader()
     
     private let cache = NSCache<NSURL, UIImage>()

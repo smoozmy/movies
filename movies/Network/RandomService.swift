@@ -2,42 +2,42 @@ import UIKit
 
 class RandomService {
     
-    private let client = RestApiClient()
+    private let client: RestApiClientProtocol
+    
+    init(client: RestApiClientProtocol = RestApiClient()) {
+        self.client = RestApiClientDecorator(wrappee: client)
+    }
     
     func fetchRandomFilm(completion: @escaping (Result<Film, Error>) -> Void) {
         loadRandomFilm(completion: completion)
     }
     
     private func loadRandomFilm(completion: @escaping (Result<Film, Error>) -> Void) {
-        do {
-            let request = try RandomFilmEndpoint.randomFilm.createRequest()
-            client.performRequest(request) { [weak self] result in
-                switch result {
-                case .success(let data):
-                    do {
-                        let decoder = JSONDecoder()
-                        decoder.keyDecodingStrategy = .convertFromSnakeCase
-                        let film = try decoder.decode(Film.self, from: data)
-                        if let shortDescription = film.shortDescription, !shortDescription.isEmpty {
-                            DispatchQueue.main.async {
-                                completion(.success(film))
-                            }
-                        } else {
-                            self?.loadRandomFilm(completion: completion)
-                        }
-                    } catch {
+        let endpoint = RandomFilmEndpoint.randomFilm
+        client.performRequest(endpoint) { [weak self] result in
+            switch result {
+            case .success(let data):
+                do {
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    let film = try decoder.decode(Film.self, from: data)
+                    if let shortDescription = film.shortDescription, !shortDescription.isEmpty {
                         DispatchQueue.main.async {
-                            completion(.failure(error))
+                            completion(.success(film))
                         }
+                    } else {
+                        self?.loadRandomFilm(completion: completion)
                     }
-                case .failure(let error):
+                } catch {
                     DispatchQueue.main.async {
                         completion(.failure(error))
                     }
                 }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
             }
-        } catch {
-            completion(.failure(error))
         }
     }
     
