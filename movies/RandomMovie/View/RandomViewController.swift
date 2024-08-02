@@ -2,12 +2,13 @@ import UIKit
 
 final class RandomViewController: UIViewController {
     
-    // MARK: - UI and Lyfe Cycle
+    private let viewModel = RandomViewModel()
+    
+    // MARK: - UI Elements
     
     private lazy var randomImages: UIImageView = {
         let element = UIImageView()
         element.image = UIImage(named: "random")
-        
         element.translatesAutoresizingMaskIntoConstraints = false
         return element
     }()
@@ -21,10 +22,11 @@ final class RandomViewController: UIViewController {
         element.addTarget(self, action: #selector(didRandomButtonTapped), for: .touchUpInside)
         element.layer.cornerRadius = 25
         element.layer.masksToBounds = true
-        
         element.translatesAutoresizingMaskIntoConstraints = false
         return element
     }()
+    
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,19 +34,38 @@ final class RandomViewController: UIViewController {
         
         setView()
         setupConstraints()
+        setupBindings()
     }
+    
     private func setView() {
         view.addSubview(randomImages)
         view.addSubview(randomButton)
     }
     
-    // MARK: - Actions
+    private func setupBindings() {
+        viewModel.onFilmFetched = { [weak self] in
+            self?.showFilmDetails()
+        }
+        viewModel.onError = { error in
+            self.showError(error)
+        }
+    }
     
-    @objc func didRandomButtonTapped() {
+    @objc private func didRandomButtonTapped() {
+        viewModel.fetchRandomFilm()
+    }
+    
+    private func showFilmDetails() {
         let singleRandomVC = SingleRandomViewController()
+        singleRandomVC.film = viewModel.film
         present(singleRandomVC, animated: true, completion: nil)
     }
     
+    private func showError(_ error: Error) {
+        let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
 }
 
 // MARK: - Constraints
@@ -65,4 +86,3 @@ extension RandomViewController {
         ])
     }
 }
-
