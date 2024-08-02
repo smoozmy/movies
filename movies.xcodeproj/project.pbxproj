@@ -26,6 +26,7 @@
 		6F27073D2C5061D4006E5A63 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F27073C2C5061D4006E5A63 /* ImageLoader.swift */; };
 		6F27073F2C55092B006E5A63 /* ImageLoaderAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F27073E2C55092B006E5A63 /* ImageLoaderAdapter.swift */; };
 		6F2707412C550AD0006E5A63 /* RestApiClientDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2707402C550AD0006E5A63 /* RestApiClientDecorator.swift */; };
+		6F2707452C55361F006E5A63 /* AbstractRestApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2707442C55361F006E5A63 /* AbstractRestApiClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		6F27073C2C5061D4006E5A63 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		6F27073E2C55092B006E5A63 /* ImageLoaderAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoaderAdapter.swift; sourceTree = "<group>"; };
 		6F2707402C550AD0006E5A63 /* RestApiClientDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestApiClientDecorator.swift; sourceTree = "<group>"; };
+		6F2707442C55361F006E5A63 /* AbstractRestApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractRestApiClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +128,7 @@
 				6F27072C2C4D450D006E5A63 /* RestApiClient.swift */,
 				6F2707402C550AD0006E5A63 /* RestApiClientDecorator.swift */,
 				6F2707322C4D523A006E5A63 /* URLRequestConvertible.swift */,
+				6F2707442C55361F006E5A63 /* AbstractRestApiClient.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -213,6 +216,7 @@
 				6F2707332C4D523A006E5A63 /* URLRequestConvertible.swift in Sources */,
 				6F2707412C550AD0006E5A63 /* RestApiClientDecorator.swift in Sources */,
 				6F27073A2C4D9236006E5A63 /* RandomService.swift in Sources */,
+				6F2707452C55361F006E5A63 /* AbstractRestApiClient.swift in Sources */,
 				6F2707252C4C1E6C006E5A63 /* ArticlesViewController.swift in Sources */,
 				6F2707312C4D4B6F006E5A63 /* Article.swift in Sources */,
 				6F27073F2C55092B006E5A63 /* ImageLoaderAdapter.swift in Sources */,

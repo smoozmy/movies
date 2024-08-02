@@ -25,38 +25,9 @@ enum NetworkError: Error {
     case invalidURL
 }
 
-class RestApiClient: RestApiClientProtocol {
+class RestApiClient: AbstractRestApiClient, RestApiClientProtocol {
     
-    private let urlSession = URLSession.shared
-    
-    func performRequest(_ factory: any RequestFactory, completion: @escaping (Result<Data, any Error>) -> Void) {
-        do {
-            let request = try factory.createRequest()
-            urlSession.dataTask(with: request) { [weak self] data, response, error in
-                if let error {
-                    completion(.failure(error))
-                    return
-                }
-                
-                if let error = self?.validate(response: response) {
-                    completion(.failure(error))
-                    return
-                }
-                
-                guard let data else {
-                    completion(.failure(NetworkError.emptyData))
-                    return
-                }
-                
-                completion(.success(data))
-                
-            }.resume()
-        } catch {
-            completion(.failure(error))
-        }
-    }
-    
-    private func validate(response: URLResponse?) -> Error? {
+    override func validate(response: URLResponse?) -> Error? {
         guard let httpResponse = response as? HTTPURLResponse else {
             return NetworkError.unknown
         }
@@ -78,4 +49,9 @@ class RestApiClient: RestApiClientProtocol {
         
         return nil
     }
+    
+    override func handleData(_ data: Data, completion: @escaping (Result<Data, Error>) -> Void) {
+        completion(.success(data))
+    }
 }
+
